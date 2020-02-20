@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  people_api:
+    image: people-api:dev
+    build:
+      context: ./source/PeopleWebApi

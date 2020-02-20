@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PeopleWebApi.Db;
 
 namespace PeopleWebApi.Controllers
 {
@@ -11,8 +9,20 @@ namespace PeopleWebApi.Controllers
     [ApiController]
     public class PeopleController : ControllerBase
     {
+        private readonly PeopleDbContext _peopleDbContext;
+
+        public PeopleController(PeopleDbContext peopleDbContext)
+            => this._peopleDbContext = peopleDbContext;
 
         [HttpGet("ping")]
         public IActionResult Ping() => Ok("pong");
+
+        [HttpGet]
+        public async Task<IActionResult> GetPeople()
+        {
+            var people = await this._peopleDbContext.People.ToListAsync();
+
+            return Ok(people);
+        }
     }
 }

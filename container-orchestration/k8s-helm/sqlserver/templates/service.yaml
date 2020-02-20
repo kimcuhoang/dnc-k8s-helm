@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.mssql.service.name }}
+spec:
+  type: LoadBalancer
+  selector:
+    # we specify, to which Pods the Service should forward the traffic
+    app: {{ .Values.mssql.deployment.podLabel }}
+  ports:
+    - name: {{ .Values.mssql.service.portName }}
+      port: {{ .Values.mssql.service.exposedPort }} # SERVICE_PORT - port exposed by this service
+      targetPort: 1433 # Pod's port number (Pod is targeted by the Service)

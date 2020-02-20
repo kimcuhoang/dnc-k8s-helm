@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "peopleapi.deployment.name" . }}
+spec:
+  replicas: {{ .Values.simpleapi.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.projectName }}-pod
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.projectName }}-pod
+    spec:
+      initContainers:
+        - name: mssqlserver-ready
+          image: {{ .Values.simpleapi.deployment.sqltoolImage | quote }}
+          imagePullPolicy: {{ .Values.simpleapi.deployment.sqltoolImagePullPolicy }}
+          command: ['sh', '-c', '/opt/mssql-tools/bin/sqlcmd -S {{ .Values.simpleapi.deployment.sqlServerService }},{{ .Values.simpleapi.deployment.sqlServerServicePort }} -U sa -P P@ssw0rd123 -Q "SELECT @@VERSION"']
+      containers:
+      - name: {{ .Values.global.projectName }}-pod
+        image: {{ .Values.simpleapi.deployment.image }}
+        imagePullPolicy: {{ .Values.simpleapi.deployment.imagePullPolicy }}
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE__ENVIRONMENT
+          value: "Production"
+        - name: "ConnectionStrings__Default"
+          value: "Server={{ .Values.simpleapi.deployment.sqlServerService }},{{ .Values.simpleapi.deployment.sqlServerServicePort }};Database=HelmK8sPeopleDb;User ID=sa;Password=P@ssw0rd123;MultipleActiveResultSets=true"

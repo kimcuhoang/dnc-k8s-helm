@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.mssql.test.podName }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+    template:
+        spec:
+            containers:
+            - name: {{ .Values.mssql.test.podName }}
+              image: {{ .Values.mssql.test.image | quote }}
+              command: ['sh', '-c', '/opt/mssql-tools/bin/sqlcmd -S {{ .Values.mssql.service.name }},{{ .Values.mssql.service.exposedPort }} -U sa -P Kimcu@1234 -Q "SELECT @@VERSION"']
+            restartPolicy: Never

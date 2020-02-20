@@ -1,0 +1,16 @@
+global:
+    projectName: helm-people-api
+    
+simpleapi:
+    deployment:
+        replicas: 1
+        image: "people-api:dev"
+        imagePullPolicy: "Never"
+        sqltoolImage: "mcr.microsoft.com/mssql-tools"
+        sqltoolImagePullPolicy: "IfNotPresent"
+        sqlServerService: "helm-sqlserver-service"
+        sqlServerServicePort: 14335
+    service:
+        portName: "helm-people-api-service-port"
+        exposedPort: 5004
+

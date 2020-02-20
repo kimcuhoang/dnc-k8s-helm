@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 1 # NUMBER_OF_REPLICAS (number of Pods)
+  selector:
+    matchLabels:
+      app: k8s-people-api
+  template:
+    metadata:
+      labels:
+        app: k8s-people-api
+    spec:
+      initContainers:
+        - name: sqlserver-ready
+          image: "mcr.microsoft.com/mssql-tools"
+          imagePullPolicy: IfNotPresent
+          command: ['sh', '-c', '/opt/mssql-tools/bin/sqlcmd -S sqlserver-service,14334 -U sa -P P@ssw0rd123 -Q "SELECT @@VERSION"']
+      containers:
+      - name: k8s-people-api
+        image: people-api:dev
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE__ENVIRONMENT
+          value: Production
+        - name: "ConnectionStrings__Default"
+          value: "Server=sqlserver-service,14334;Database=K8sPeopleDb;User ID=sa;Password=P@ssw0rd123;MultipleActiveResultSets=true"

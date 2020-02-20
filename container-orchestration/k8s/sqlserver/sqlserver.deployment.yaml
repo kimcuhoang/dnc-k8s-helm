@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sqlserver-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-people-db
+  template: # here the Pod specification starts
+    metadata:
+      labels:
+        app: k8s-people-db
+    spec:
+      containers:
+        - image: "mcr.microsoft.com/mssql/server:2019-latest"
+          name: k8s-people-db
+          env:
+          - name:  ACCEPT_EULA
+            value:  "Y"
+          - name:  SA_PASSWORD
+            value:  "P@ssw0rd123"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 1433
+          volumeMounts:
+          - mountPath: /var/opt/mssql/data
+            name: k8s-people-db-volumes
+      volumes:
+      - name: k8s-people-db-volumes
+        persistentVolumeClaim:
+            claimName: sqlserver-pvc

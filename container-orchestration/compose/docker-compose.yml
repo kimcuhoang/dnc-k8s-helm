@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  people_api:
+    image: people-api:dev
+    container_name: people_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings:Default=Server=people_db;Database=PeopleDb;User ID=sa;Password=P@ssw0rd123;MultipleActiveResultSets=true
+    ports:
+      - "5002:80"
+    depends_on:
+      - people_db
+    restart: on-failure
+    networks:
+      - test
+
+  people_db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: people_db
+    ports:
+      - "14333:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd123
+    volumes: 
+      - D:\temp:/var/opt/mssql/data
+    networks:
+      - test
+
+networks:
+  test:

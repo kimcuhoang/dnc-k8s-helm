@@ -2,15 +2,9 @@
 
 ## Install Helm
 
-- Download [Helm 3.1.0 for window](https://get.helm.sh/helm-v3.1.0-windows-amd64.zip)
+- Download [Helm 3.1.2 for window](https://get.helm.sh/helm-v3.1.2-windows-amd64.zip)
 - Extract the zip file, for example, `C:\Helm-3.1.0`
-- Add the `C:\Helm-3.1.0` to the **PATH**
-- Open the **Window PowerShell** as **Administrator**; then starting init helm
-
-    ```powershell
-    helm init
-    ```
-
+- Add the `C:\Helm-3.1.2` to the **PATH**
 - Verify
 
     ```powershell
@@ -18,12 +12,12 @@
     ```
 
     ```json
-    version.BuildInfo{Version:"v3.1.0", GitCommit:"b29d20baf09943e134c2fa5e1e1cab3bf93315fa", GitTreeState:"clean", GoVersion:"go1.13.7"}
+    version.BuildInfo{Version:"v3.1.2", GitCommit:"d878d4d45863e42fd5cff6743294a11d28a9abce", GitTreeState:"clean", GoVersion:"go1.13.8"}
     ```
 
 ## Deploy by using Helm
 
-### Generate sqlserver helm package
+### Generate sqlserver helm package as 
 
 ```powershell
 helm package .\sqlserver .\api\charts
@@ -56,8 +50,8 @@ helm list
 ### Sqlserver
 
 - We can use **SQL Server Management Studio** to access the sqlserver container with the following information
-  - Server address: localhost,14335
-  - Password for sa account: P@ssw0rd123
+  - **Server address:** localhost,14335
+  - **Password** for sa account: P@ssw0rd123
 
 ## Resources
 

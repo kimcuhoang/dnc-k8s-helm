@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "people-api.fullname" . }}
+  labels:
+    {{- include "people-api.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "people-api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "people-api.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE__ENVIRONMENT
+              value: "Production"
+            - name: "ConnectionStrings__Default"
+              value: "Server={{ .Values.database.address }};Database=HelmK8sPeopleDb;User ID=sa;Password={{ .Values.database.password }};MultipleActiveResultSets=true"

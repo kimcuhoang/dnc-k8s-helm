@@ -24,10 +24,10 @@
 
   ```yaml
   database:
-  password: P@ssword
-  persistentVolume:
-    hostPath: "/E/temp"
-    capacity: "20Gi"
+    password: P@ssword
+    persistentVolume:
+      hostPath: "/E/temp"
+      capacity: "20Gi"
   ```
 
 ### Install people-api-database
@@ -107,9 +107,10 @@ pod/people-api-database-57c69d5446-k64sp   1/1     Running   0          3m45s
 
 ### Sqlserver
 
-- We can use **SQL Server Management Studio** to access the sqlserver container with the following information
-  - **Server address:** localhost
-  - **Password** for sa account: P@ssword
+- We can use **SQL Server Management Studio** with the following information
+  - Address: **localhost**
+  - Login: **sa**
+  - Password: **P@ssword**
 
 ## Cleanup
 
@@ -124,10 +125,9 @@ release "people-api-database" uninstalled
 release "people-api" uninstalled
 ```
 
-### Remove all database physical files at `E:\temp`
-
 ## Resources
 
-[Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/)
-
-[Template everything with Helm](https://medium.com/@maorfr/template-everything-with-helm-48e5a32ff72d)
+- [Getting Started](https://helm.sh/docs/chart_template_guide/getting_started/)
+- [Template everything with Helm](https://medium.com/@maorfr/template-everything-with-helm-48e5a32ff72d)
+- [Helm Chart for mssql-linux](https://github.com/helm/charts/tree/master/stable/mssql-linux)
+- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)

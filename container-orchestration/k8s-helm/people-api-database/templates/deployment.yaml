@@ -24,9 +24,8 @@ spec:
             - name:  SA_PASSWORD
               value:  {{ .Values.database.password | quote }}
           ports:
-            - name: http
-              containerPort: 1433
-              protocol: TCP
+            - name: mssql
+              containerPort: {{ .Values.service.port }}
           volumeMounts:
           - mountPath: /var/opt/mssql/data
             name: "{{ .Chart.Name }}-pv"

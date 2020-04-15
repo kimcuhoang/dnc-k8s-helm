@@ -47,6 +47,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "people-api.selectorLabels" -}}
+app: {{ include "people-api.name" . | quote }}
 app.kubernetes.io/name: {{ include "people-api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}

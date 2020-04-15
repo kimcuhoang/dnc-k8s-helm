@@ -6,7 +6,6 @@ replicaCount: 1
 
 image:
   repository: mcr.microsoft.com/mssql/server:2019-latest
-  sqlToolRepository: "mcr.microsoft.com/mssql-tools"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

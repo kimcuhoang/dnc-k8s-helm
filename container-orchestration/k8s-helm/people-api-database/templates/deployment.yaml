@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "people-api-database.fullname" . }}
+  labels:
+    {{- include "people-api-database.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "people-api-database.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "people-api-database.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name:  ACCEPT_EULA
+              value:  "Y"
+            - name:  SA_PASSWORD
+              value:  {{ .Values.database.password | quote }}
+          ports:
+            - name: mssql
+              containerPort: {{ .Values.service.port }}
+          volumeMounts:
+          - mountPath: /var/opt/mssql/data
+            name: "{{ .Chart.Name }}-pv"
+      volumes:
+      - name: "{{ .Chart.Name }}-pv"
+        persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}-pvc"

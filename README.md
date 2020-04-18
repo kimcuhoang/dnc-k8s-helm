@@ -8,16 +8,18 @@ An extremely simple .NET Core web api within EntityFrameworkCore which will be d
 docker-compose build
 ```
 
-## Starting Containers
-
-### By docker-compose
+## Starting with docker-compose
 
 [Follow this](container-orchestration/compose/Readme.md)
 
-### Kubernetes
+## Starting with Kubernetes
 
-[Follow this](container-orchestration/k8s/Readme.md)
+- Here are [step-by-step](container-orchestration/k8s/Readme.md) to deploy our services to Kubernetes.
 
-### Helm
+## Starting with Helm
 
-[Follow this](container-orchestration/k8s-helm/Readme.md)
+- Here are [step-by-step](container-orchestration/k8s-helm/Readme.md) from install [Helm](https://helm.sh/) and then deploy our services includes **sqlserver**
+
+## More
+
+- After deployed to K8s by Helm chart, we may want to play with [istio](https://istio.io/). Here are [step-by-step](container-orchestration/istio/README.md) from installation to deployment (includes [grafana](https://grafana.com/))
